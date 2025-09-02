@@ -268,6 +268,150 @@ export async function executeToolMethod(
                 return wrapResult(res);
             }
 
+            // Enhanced Gesture operations
+            case 'enhanced_swipe': {
+                const err = validateRequiredProps(['direction'], args);
+                if (err) return wrapError(err);
+                const enhancedGestureTools = new (await import('../tools/enhanced-gesture-tools.js')).EnhancedGestureTools(appiumClient);
+                const res = await enhancedGestureTools.swipe(args as { direction: any; distance?: number; velocity?: number; naturalScrolling?: boolean; });
+                return wrapResult(res);
+            }
+
+            case 'enhanced_tap': {
+                const err = validateRequiredProps(['x', 'y'], args);
+                if (err) return wrapError(err);
+                const enhancedGestureTools = new (await import('../tools/enhanced-gesture-tools.js')).EnhancedGestureTools(appiumClient);
+                const res = await enhancedGestureTools.tap(args as { x: number; y: number; force?: number; duration?: number; });
+                return wrapResult(res);
+            }
+
+            case 'enhanced_long_press': {
+                const err = validateRequiredProps(['x', 'y'], args);
+                if (err) return wrapError(err);
+                const enhancedGestureTools = new (await import('../tools/enhanced-gesture-tools.js')).EnhancedGestureTools(appiumClient);
+                const res = await enhancedGestureTools.longPress(args as { x: number; y: number; duration?: number; contextMenu?: boolean; force?: number; });
+                return wrapResult(res);
+            }
+
+            case 'enhanced_pinch_zoom': {
+                const err = validateRequiredProps(['centerX', 'centerY'], args);
+                if (err) return wrapError(err);
+                const enhancedGestureTools = new (await import('../tools/enhanced-gesture-tools.js')).EnhancedGestureTools(appiumClient);
+                const res = await enhancedGestureTools.pinchZoom(args as { centerX: number; centerY: number; scale?: number; velocity?: number; fingers?: number; });
+                return wrapResult(res);
+            }
+
+            case 'fling_gesture': {
+                const err = validateRequiredProps(['direction'], args);
+                if (err) return wrapError(err);
+                const enhancedGestureTools = new (await import('../tools/enhanced-gesture-tools.js')).EnhancedGestureTools(appiumClient);
+                const res = await enhancedGestureTools.fling(args as { direction: any; velocity?: number; distance?: number; });
+                return wrapResult(res);
+            }
+
+            case 'ios_natural_scroll': {
+                const err = validateRequiredProps(['direction'], args);
+                if (err) return wrapError(err);
+                const enhancedGestureTools = new (await import('../tools/enhanced-gesture-tools.js')).EnhancedGestureTools(appiumClient);
+                const res = await enhancedGestureTools.iosNaturalScroll(args as { direction: any; distance?: number; velocity?: number; });
+                return wrapResult(res);
+            }
+
+            case 'ios_force_touch': {
+                const err = validateRequiredProps(['x', 'y', 'force'], args);
+                if (err) return wrapError(err);
+                const enhancedGestureTools = new (await import('../tools/enhanced-gesture-tools.js')).EnhancedGestureTools(appiumClient);
+                const res = await enhancedGestureTools.iosForceTouch(args as { x: number; y: number; force: number; });
+                return wrapResult(res);
+            }
+
+            case 'android_fling': {
+                const err = validateRequiredProps(['direction'], args);
+                if (err) return wrapError(err);
+                const enhancedGestureTools = new (await import('../tools/enhanced-gesture-tools.js')).EnhancedGestureTools(appiumClient);
+                const res = await enhancedGestureTools.androidFling(args as { direction: any; velocity?: number; distance?: number; });
+                return wrapResult(res);
+            }
+
+            case 'android_long_press_menu': {
+                const err = validateRequiredProps(['x', 'y'], args);
+                if (err) return wrapError(err);
+                const enhancedGestureTools = new (await import('../tools/enhanced-gesture-tools.js')).EnhancedGestureTools(appiumClient);
+                const res = await enhancedGestureTools.androidLongPressMenu(args as { x: number; y: number; duration?: number; });
+                return wrapResult(res);
+            }
+
+            // Locator operations
+            case 'smart_locate_element': {
+                const err = validateRequiredProps(['strategy', 'locator'], args);
+                if (err) return wrapError(err);
+                const locatorTools = new (await import('../tools/locator-tools.js')).LocatorTools(appiumClient);
+                const res = await locatorTools.smartLocate(args as { strategy: any; locator: string; multiple?: boolean; timeout?: number; context?: string; });
+                return wrapResult(res);
+            }
+
+            case 'wait_for_element': {
+                const err = validateRequiredProps(['strategy', 'locator'], args);
+                if (err) return wrapError(err);
+                const locatorTools = new (await import('../tools/locator-tools.js')).LocatorTools(appiumClient);
+                const res = await locatorTools.waitForElement(args as { strategy: any; locator: string; timeout?: number; visible?: boolean; clickable?: boolean; context?: string; });
+                return wrapResult(res);
+            }
+
+            case 'validate_element': {
+                const err = validateRequiredProps(['elementId'], args);
+                if (err) return wrapError(err);
+                const locatorTools = new (await import('../tools/locator-tools.js')).LocatorTools(appiumClient);
+                const res = await locatorTools.validateElement(args as { elementId: string; visible?: boolean; enabled?: boolean; clickable?: boolean; text?: string; attributes?: Record<string, string>; });
+                return wrapResult(res);
+            }
+
+            case 'ios_predicate_locate': {
+                const err = validateRequiredProps(['predicate'], args);
+                if (err) return wrapError(err);
+                const locatorTools = new (await import('../tools/locator-tools.js')).LocatorTools(appiumClient);
+                const res = await locatorTools.iosPredicateLocate(args as { predicate: string; multiple?: boolean; timeout?: number; });
+                return wrapResult(res);
+            }
+
+            case 'ios_class_chain_locate': {
+                const err = validateRequiredProps(['classChain'], args);
+                if (err) return wrapError(err);
+                const locatorTools = new (await import('../tools/locator-tools.js')).LocatorTools(appiumClient);
+                const res = await locatorTools.iosClassChainLocate(args as { classChain: string; multiple?: boolean; timeout?: number; });
+                return wrapResult(res);
+            }
+
+            case 'android_uiautomator_locate': {
+                const err = validateRequiredProps(['selector'], args);
+                if (err) return wrapError(err);
+                const locatorTools = new (await import('../tools/locator-tools.js')).LocatorTools(appiumClient);
+                const res = await locatorTools.androidUiAutomatorLocate(args as { selector: string; multiple?: boolean; timeout?: number; });
+                return wrapResult(res);
+            }
+
+            case 'android_datamatcher_locate': {
+                const err = validateRequiredProps(['matcher'], args);
+                if (err) return wrapError(err);
+                const locatorTools = new (await import('../tools/locator-tools.js')).LocatorTools(appiumClient);
+                const res = await locatorTools.androidDataMatcherLocate(args as { matcher: string; multiple?: boolean; timeout?: number; });
+                return wrapResult(res);
+            }
+
+            case 'get_locator_suggestions': {
+                const locatorTools = new (await import('../tools/locator-tools.js')).LocatorTools(appiumClient);
+                const res = await locatorTools.getLocatorSuggestions(args as { platform?: string; });
+                return wrapResult(res);
+            }
+
+            case 'cross_platform_locate': {
+                const err = validateRequiredProps(['primaryStrategy', 'primaryLocator'], args);
+                if (err) return wrapError(err);
+                const locatorTools = new (await import('../tools/locator-tools.js')).LocatorTools(appiumClient);
+                const res = await locatorTools.crossPlatformLocate(args as { primaryStrategy: any; primaryLocator: string; fallbackStrategies?: Array<{ strategy: any; locator: string; }>; timeout?: number; multiple?: boolean; });
+                return wrapResult(res);
+            }
+
             // Context operations
             case 'get_contexts': {
                 const res = await appiumClient.getContextManager().getAvailableContexts();

@@ -5,6 +5,8 @@ export { AppiumClient } from './appium-client.js';
 export { DeviceManager } from './device-manager.js';
 export { ElementManager } from './element-manager.js';
 export { GestureManager } from './gesture-manager.js';
+export { EnhancedGestureManager } from './enhanced-gesture-manager.js';
+export { LocatorManager } from './locator-manager.js';
 export { ContextManager } from './context-manager.js';
 export { AppManager } from './app-manager.js';
 export { IOSManager } from './ios-manager.js';

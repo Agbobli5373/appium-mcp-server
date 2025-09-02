@@ -32,7 +32,13 @@ export type MobileLocatorStrategy =
     | 'css'
     | 'tag'
     | 'link'
-    | 'partial-link';
+    | 'partial-link'
+    | 'predicate'      // iOS NSPredicate
+    | 'class-chain'    // iOS Class Chain
+    | 'uiautomator'    // Android UiAutomator
+    | 'datamatcher'    // Android DataMatcher
+    | 'text'           // Android text content
+    | 'class-name';    // Alternative class name
 
 // Response types for operations
 export interface AppiumResponse<T = any> {

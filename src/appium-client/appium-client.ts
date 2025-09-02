@@ -6,7 +6,7 @@ import {
     AppiumError,
     BaseManager
 } from './types.js';
-import { AppManager, ContextManager, DeviceManager, ElementManager, GestureManager, IOSManager, AndroidManager } from './index.js';
+import { AppManager, ContextManager, DeviceManager, ElementManager, GestureManager, IOSManager, AndroidManager, EnhancedGestureManager, LocatorManager } from './index.js';
 
 
 /**
@@ -20,6 +20,8 @@ export class AppiumClient {
     private deviceManager: DeviceManager;
     private elementManager: ElementManager;
     private gestureManager: GestureManager;
+    private enhancedGestureManager: EnhancedGestureManager;
+    private locatorManager: LocatorManager;
     private contextManager: ContextManager;
     private appManager: AppManager;
     private iosManager: IOSManager;
@@ -30,6 +32,8 @@ export class AppiumClient {
         this.deviceManager = new DeviceManager();
         this.elementManager = new ElementManager();
         this.gestureManager = new GestureManager();
+        this.enhancedGestureManager = new EnhancedGestureManager();
+        this.locatorManager = new LocatorManager();
         this.contextManager = new ContextManager();
         this.appManager = new AppManager();
         this.iosManager = new IOSManager();
@@ -47,6 +51,8 @@ export class AppiumClient {
             this.deviceManager,
             this.elementManager,
             this.gestureManager,
+            this.enhancedGestureManager,
+            this.locatorManager,
             this.contextManager,
             this.appManager,
             this.iosManager,
@@ -217,6 +223,10 @@ export class AppiumClient {
         return this.gestureManager;
     }
 
+    getEnhancedGestureManager(): EnhancedGestureManager {
+        return this.enhancedGestureManager;
+    }
+
     getContextManager(): ContextManager {
         return this.contextManager;
     }
@@ -231,5 +241,9 @@ export class AppiumClient {
 
     getAndroidManager(): AndroidManager {
         return this.androidManager;
+    }
+
+    getLocatorManager(): LocatorManager {
+        return this.locatorManager;
     }
 }
