@@ -1,43 +1,41 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { executeToolMethod } from '../../src/server/execute-tool-method.js';
 
-describe('executeToolMethod wiring', () => {
-  it('calls AppManager.launchApp when toolName is "launch_app"', async () => {
-    const launched = { success: true, message: 'launched' };
-    const mockAppManager = {
-      launchApp: async (appId: string) => {
-        expect(appId).toBe('com.example.app');
-        return launched;
-      }
+describe('executeToolMethod wiring and validation', () => {
+  it('calls startSession on appiumClient when start_session invoked', async () => {
+    const fakeClient: any = {
+      startSession: vi.fn().mockResolvedValue({ success: true, message: 'started' }),
     };
 
-    const mockClient: any = {
-      getAppManager: () => mockAppManager
-    };
-
-    const res = await executeToolMethod(mockClient, 'launch_app', { appId: 'com.example.app' });
-    expect(res).toEqual(launched);
+    const res = await executeToolMethod(fakeClient, 'start_session', { capabilities: { platformName: 'Android' } });
+    expect(fakeClient.startSession).toHaveBeenCalledWith({ platformName: 'Android' });
+    expect(res).toBeDefined();
+    expect(res.success).toBe(true);
+    expect(res.message).toBe('started');
   });
 
-  it('calls ElementManager.findElement when toolName is "find_mobile_element"', async () => {
-    const found = {
-      success: true,
-      message: 'found',
-      data: { elementId: 'el-1', locator: 'btn', strategy: 'id' }
-    };
-    const mockElementManager = {
-      findElement: async (strategy: string, locator: string) => {
-        expect(strategy).toBe('id');
-        expect(locator).toBe('btn');
-        return found;
-      }
+    it('returns validation error for required input (get_app_state)', async () => {
+        const fakeClient: any = {
+          getAppManager: () => ({ getAppState: vi.fn() }),
+        };
+    
+        const res = await executeToolMethod(fakeClient, 'get_app_state', {}); // missing appId
+        expect(res).toBeDefined();
+        expect(res.success).toBe(false);
+        expect(typeof res.message).toBe('string');
+        expect(res.message).toMatch(/Missing required properties/i);
+      });
+
+  it('routes find_mobile_element to element manager when input valid', async () => {
+    const findFn = vi.fn().mockResolvedValue({ success: true, data: { elementId: 'el-1' } });
+    const fakeClient: any = {
+      getElementManager: () => ({ findElement: findFn }),
     };
 
-    const mockClient: any = {
-      getElementManager: () => mockElementManager
-    };
-
-    const res = await executeToolMethod(mockClient, 'find_mobile_element', { strategy: 'id', locator: 'btn' });
-    expect(res).toEqual(found);
+    const res = await executeToolMethod(fakeClient, 'find_mobile_element', { strategy: 'accessibility id', locator: 'login' });
+    expect(findFn).toHaveBeenCalledWith('accessibility id', 'login');
+    expect(res).toBeDefined();
+    expect(res.success).toBe(true);
+    expect(res.data).toEqual({ elementId: 'el-1' });
   });
 });

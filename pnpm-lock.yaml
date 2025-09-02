@@ -33,6 +33,9 @@ importers:
       '@typescript-eslint/parser':
         specifier: ^6.0.0
         version: 6.21.0(eslint@8.57.1)(typescript@5.9.2)
+      ajv:
+        specifier: ^8.17.1
+        version: 8.17.1
       appium-doctor:
         specifier: ^1.16.0
         version: 1.16.2(@types/node@20.19.11)
