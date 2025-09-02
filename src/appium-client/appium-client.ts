@@ -6,7 +6,7 @@ import {
     AppiumError,
     BaseManager
 } from './types.js';
-import { AppManager, ContextManager, DeviceManager, ElementManager, GestureManager } from './index.js';
+import { AppManager, ContextManager, DeviceManager, ElementManager, GestureManager, IOSManager, AndroidManager } from './index.js';
 
 
 /**
@@ -22,6 +22,8 @@ export class AppiumClient {
     private gestureManager: GestureManager;
     private contextManager: ContextManager;
     private appManager: AppManager;
+    private iosManager: IOSManager;
+    private androidManager: AndroidManager;
 
     constructor() {
         // Initialize all managers
@@ -30,6 +32,8 @@ export class AppiumClient {
         this.gestureManager = new GestureManager();
         this.contextManager = new ContextManager();
         this.appManager = new AppManager();
+        this.iosManager = new IOSManager();
+        this.androidManager = new AndroidManager();
 
         // Set up manager references to this client
         this.updateAllManagers();
@@ -44,7 +48,9 @@ export class AppiumClient {
             this.elementManager,
             this.gestureManager,
             this.contextManager,
-            this.appManager
+            this.appManager,
+            this.iosManager,
+            this.androidManager
         ];
 
         managers.forEach(manager => manager.setDriver(this.driver));
@@ -217,5 +223,13 @@ export class AppiumClient {
 
     getAppManager(): AppManager {
         return this.appManager;
+    }
+
+    getIOSManager(): IOSManager {
+        return this.iosManager;
+    }
+
+    getAndroidManager(): AndroidManager {
+        return this.androidManager;
     }
 }

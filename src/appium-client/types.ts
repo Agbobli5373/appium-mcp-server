@@ -122,6 +122,7 @@ export class AppiumError extends Error {
 }
 
 // Platform-specific types
+export type PlatformType = 'ios' | 'android';
 export type AndroidCapabilities = DeviceCapabilities & {
     platformName: 'Android';
     automationName: 'UiAutomator2';

@@ -389,6 +389,131 @@ export async function executeToolMethod(
                 return wrapResult(res);
             }
 
+            // iOS-specific operations
+            case 'ios_get_simulator_list': {
+                const res = await appiumClient.getIOSManager().getSimulatorList(args.runtime);
+                return wrapResult(res);
+            }
+
+            case 'ios_create_simulator': {
+                const err = validateRequiredProps(['name', 'deviceType', 'runtime'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getIOSManager().createSimulator({
+                    name: args.name,
+                    deviceType: args.deviceType,
+                    runtime: args.runtime
+                });
+                return wrapResult(res);
+            }
+
+            case 'ios_delete_simulator': {
+                const err = validateRequiredProps(['udid'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getIOSManager().deleteSimulator(args.udid);
+                return wrapResult(res);
+            }
+
+            case 'ios_get_device_logs': {
+                const res = await appiumClient.getIOSManager().getDeviceLogs();
+                return wrapResult(res);
+            }
+
+            case 'ios_install_app': {
+                const err = validateRequiredProps(['appPath'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getIOSManager().installApp(args.appPath, args.bundleId);
+                return wrapResult(res);
+            }
+
+            case 'ios_uninstall_app': {
+                const err = validateRequiredProps(['bundleId'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getIOSManager().uninstallApp(args.bundleId);
+                return wrapResult(res);
+            }
+
+            case 'ios_handle_system_alert': {
+                const err = validateRequiredProps(['action'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getIOSManager().handleSystemAlert(args.action);
+                return wrapResult(res);
+            }
+
+            case 'ios_get_device_info': {
+                const res = await appiumClient.getIOSManager().getIOSDeviceInfo();
+                return wrapResult(res);
+            }
+
+            // Android-specific operations
+            case 'android_get_emulator_list': {
+                const res = await appiumClient.getAndroidManager().getEmulatorList(args.apiLevel);
+                return wrapResult(res);
+            }
+
+            case 'android_create_emulator': {
+                const err = validateRequiredProps(['name', 'device', 'apiLevel', 'target'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getAndroidManager().createEmulator({
+                    name: args.name,
+                    device: args.device,
+                    apiLevel: args.apiLevel,
+                    target: args.target
+                });
+                return wrapResult(res);
+            }
+
+            case 'android_delete_emulator': {
+                const err = validateRequiredProps(['name'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getAndroidManager().deleteEmulator(args.name);
+                return wrapResult(res);
+            }
+
+            case 'android_get_device_logs': {
+                const res = await appiumClient.getAndroidManager().getDeviceLogs();
+                return wrapResult(res);
+            }
+
+            case 'android_install_apk': {
+                const err = validateRequiredProps(['apkPath'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getAndroidManager().installApp(args.apkPath);
+                return wrapResult(res);
+            }
+
+            case 'android_uninstall_app': {
+                const err = validateRequiredProps(['packageName'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getAndroidManager().uninstallApp(args.packageName);
+                return wrapResult(res);
+            }
+
+            case 'android_grant_permissions': {
+                const err = validateRequiredProps(['packageName', 'permissions'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getAndroidManager().grantPermissions(args.packageName, args.permissions);
+                return wrapResult(res);
+            }
+
+            case 'android_revoke_permissions': {
+                const err = validateRequiredProps(['packageName', 'permissions'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getAndroidManager().revokePermissions(args.packageName, args.permissions);
+                return wrapResult(res);
+            }
+
+            case 'android_toggle_network': {
+                const err = validateRequiredProps(['enabled'], args);
+                if (err) return wrapError(err);
+                const res = await appiumClient.getAndroidManager().toggleNetwork(args.enabled);
+                return wrapResult(res);
+            }
+
+            case 'android_get_device_info': {
+                const res = await appiumClient.getAndroidManager().getAndroidDeviceInfo();
+                return wrapResult(res);
+            }
+
             default:
                 return wrapError(`Unknown tool: ${toolName}`);
         }

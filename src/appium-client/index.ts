@@ -7,6 +7,8 @@ export { ElementManager } from './element-manager.js';
 export { GestureManager } from './gesture-manager.js';
 export { ContextManager } from './context-manager.js';
 export { AppManager } from './app-manager.js';
+export { IOSManager } from './ios-manager.js';
+export { AndroidManager } from './android-manager.js';
 
 // Types and interfaces
 export type {
