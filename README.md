@@ -17,8 +17,8 @@ A Model Context Protocol (MCP) server that provides seamless integration between
 - TypeScript 5.0.0 or higher
 - Appium Server 2.0+
 - Mobile development environment:
-  - **Android**: Android SDK, UiAutomator2 driver, Android device/emulator
-  - **iOS**: Xcode, XCUITest driver, iOS Simulator (macOS only)
+    - **Android**: Android SDK, UiAutomator2 driver, Android device/emulator
+    - **iOS**: Xcode, XCUITest driver, iOS Simulator (macOS only)
 
 ## Installation
 
@@ -31,14 +31,30 @@ cd appium-mcp-server
 
 2. Install dependencies
 
+### Using pnpm
+
 ```bash
-npm install
+pnpm install
+```
+
+### Using yarn
+
+```bash
+yarn install
 ```
 
 3. Build the project
 
+### Using pnpm
+
 ```bash
-npm run build
+pnpm build
+```
+
+### Using yarn
+
+```bash
+yarn build
 ```
 
 4. Test the server (optional)
@@ -71,12 +87,12 @@ node wrapper.cjs
 
 ```json
 {
-  "servers": {
-    "appium": {
-      "command": "node",
-      "args": ["C:\\absolute\\path\\to\\appium-mcp-server\\wrapper.cjs"]
+    "servers": {
+        "appium": {
+            "command": "node",
+            "args": ["C:\\absolute\\path\\to\\appium-mcp-server\\wrapper.cjs"]
+        }
     }
-  }
 }
 ```
 
@@ -88,13 +104,13 @@ Start an Appium session
 
 ```json
 {
-  "tool": "start_session",
-  "args": {
-    "platformName": "Android",
-    "platformVersion": "12.0",
-    "deviceName": "emulator-5554",
-    "automationName": "UiAutomator2"
-  }
+    "tool": "start_session",
+    "args": {
+        "platformName": "Android",
+        "platformVersion": "12.0",
+        "deviceName": "emulator-5554",
+        "automationName": "UiAutomator2"
+    }
 }
 ```
 
@@ -102,21 +118,21 @@ Find and tap an element
 
 ```json
 {
-  "tool": "find_mobile_element",
-  "args": {
-    "by": "accessibility-id",
-    "value": "login-button"
-  }
+    "tool": "find_mobile_element",
+    "args": {
+        "by": "accessibility-id",
+        "value": "login-button"
+    }
 }
 ```
 
 ```json
 {
-  "tool": "tap_element",
-  "args": {
-    "by": "accessibility-id",
-    "value": "login-button"
-  }
+    "tool": "tap_element",
+    "args": {
+        "by": "accessibility-id",
+        "value": "login-button"
+    }
 }
 ```
 
@@ -124,11 +140,11 @@ Perform swipe gesture
 
 ```json
 {
-  "tool": "swipe_screen",
-  "args": {
-    "direction": "up",
-    "distance": 0.5
-  }
+    "tool": "swipe_screen",
+    "args": {
+        "direction": "up",
+        "distance": 0.5
+    }
 }
 ```
 
@@ -136,31 +152,31 @@ Perform swipe gesture
 
 ```javascript
 // JavaScript (pseudo-code; adapt to your MCP client library)
-await mcpClient.callTool("start_session", {
-  platformName: "Android",
-  platformVersion: "12.0",
-  deviceName: "emulator-5554",
-  automationName: "UiAutomator2",
-  app: "/path/to/app.apk"
+await mcpClient.callTool('start_session', {
+    platformName: 'Android',
+    platformVersion: '12.0',
+    deviceName: 'emulator-5554',
+    automationName: 'UiAutomator2',
+    app: '/path/to/app.apk',
 });
 
-await mcpClient.callTool("find_mobile_element", {
-  by: "accessibility-id",
-  value: "username-field"
+await mcpClient.callTool('find_mobile_element', {
+    by: 'accessibility-id',
+    value: 'username-field',
 });
 
-await mcpClient.callTool("send_mobile_keys", {
-  by: "accessibility-id",
-  value: "username-field",
-  text: "testuser@example.com"
+await mcpClient.callTool('send_mobile_keys', {
+    by: 'accessibility-id',
+    value: 'username-field',
+    text: 'testuser@example.com',
 });
 
-await mcpClient.callTool("tap_element", {
-  by: "accessibility-id",
-  value: "login-button"
+await mcpClient.callTool('tap_element', {
+    by: 'accessibility-id',
+    value: 'login-button',
 });
 
-await mcpClient.callTool("end_session", {});
+await mcpClient.callTool('end_session', {});
 ```
 
 ## Configuration
@@ -171,12 +187,12 @@ Windows:
 
 ```json
 {
-  "servers": {
-    "appium": {
-      "command": "node",
-      "args": ["C:\\path\\to\\your\\appium-mcp-server\\wrapper.cjs"]
+    "servers": {
+        "appium": {
+            "command": "node",
+            "args": ["C:\\path\\to\\your\\appium-mcp-server\\wrapper.cjs"]
+        }
     }
-  }
 }
 ```
 
@@ -184,12 +200,12 @@ macOS / Linux:
 
 ```json
 {
-  "servers": {
-    "appium": {
-      "command": "node",
-      "args": ["/path/to/your/appium-mcp-server/wrapper.cjs"]
+    "servers": {
+        "appium": {
+            "command": "node",
+            "args": ["/path/to/your/appium-mcp-server/wrapper.cjs"]
+        }
     }
-  }
 }
 ```
 
@@ -204,12 +220,12 @@ Example — default (all tools available):
 
 ```json
 {
-  "servers": {
-    "appium": {
-      "command": "node",
-      "args": ["/path/to/appium-mcp-server/wrapper.cjs"]
+    "servers": {
+        "appium": {
+            "command": "node",
+            "args": ["/path/to/appium-mcp-server/wrapper.cjs"]
+        }
     }
-  }
 }
 ```
 
@@ -217,15 +233,15 @@ Example — limit to specific tools:
 
 ```json
 {
-  "servers": {
-    "appium": {
-      "command": "node",
-      "args": ["/path/to/appium-mcp-server/wrapper.cjs"],
-      "env": {
-        "MCP_TOOLS": ["start_session", "find_mobile_element", "tap_element", "send_mobile_keys"]
-      }
+    "servers": {
+        "appium": {
+            "command": "node",
+            "args": ["/path/to/appium-mcp-server/wrapper.cjs"],
+            "env": {
+                "MCP_TOOLS": ["start_session", "find_mobile_element", "tap_element", "send_mobile_keys"]
+            }
+        }
     }
-  }
 }
 ```
 
@@ -286,12 +302,14 @@ appium-mcp-server/
 ### Platform-Specific Setup
 
 #### Android Setup
+
 1. Install Android SDK and set up environment variables
 2. Install UiAutomator2 driver: `appium driver install uiautomator2`
 3. Start Android emulator or connect physical device
 4. Verify ADB connection: `adb devices`
 
 #### iOS Setup (macOS only)
+
 1. Install Xcode and command line tools
 2. Install XCUITest driver: `appium driver install xcuitest`
 3. Start iOS Simulator or connect physical device
@@ -307,4 +325,4 @@ MIT License
 
 ---
 
-*This project follows the proven architecture of the Selenium MCP server while adapting to the unique requirements of mobile automation with Appium.*
+_This project follows the proven architecture of the Selenium MCP server while adapting to the unique requirements of mobile automation with Appium._
