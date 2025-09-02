@@ -1,14 +1,14 @@
 import { Tool } from "@modelcontextprotocol/sdk/types.js";
-import { appManagementTools } from "./app-management";
-import { contextManagementTools } from "./context-management";
-import { deviceManagementTools } from "./device-management";
-import { elementInteractionTools } from "./element-interaction";
-import { gestureTools } from "./gesture-tools";
-import { enhancedGestureTools } from "./enhanced-gesture-tools";
-import { locatorTools } from "./locator-tools";
-import { mobileAnalysisTools } from "./mobile-analysis";
-import { iosTools } from "./ios-tools";
-import { androidTools } from "./android-tools";
+import { appManagementTools } from "./app-management.js";
+import { contextManagementTools } from "./context-management.js";
+import { deviceManagementTools } from "./device-management.js";
+import { elementInteractionTools } from "./element-interaction.js";
+import { gestureTools } from "./gesture-tools.js";
+import { enhancedGestureTools } from "./enhanced-gesture-tools.js";
+import { locatorTools } from "./locator-tools.js";
+import { mobileAnalysisTools } from "./mobile-analysis.js";
+import { iosTools } from "./ios-tools.js";
+import { androidTools } from "./android-tools.js";
 
 // Combine all tool categories
 export const tools: Tool[] = [
