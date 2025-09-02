@@ -20,15 +20,36 @@ export class ElementManager implements BaseManager {
 
         try {
             const element = await this.driver.$(this.buildSelector(strategy, value));
+
+            // Wait for element to be displayed (with timeout)
+            await element.waitForDisplayed({ timeout: 10000 });
+
             const elementId = await element.getAttribute('id') || 'unknown';
+
+            // Get element bounds using getLocation and getSize
+            let bounds: { x: number; y: number; width: number; height: number } | undefined;
+            try {
+                const location = await element.getLocation();
+                const size = await element.getSize();
+                bounds = {
+                    x: location.x,
+                    y: location.y,
+                    width: size.width,
+                    height: size.height
+                };
+            } catch (boundsError) {
+                bounds = undefined;
+            }
 
             const elementInfo: MobileElementInfo = {
                 elementId,
                 locator: value,
                 strategy,
                 text: await element.getText(),
+                ...(bounds && { bounds }),
                 isDisplayed: await element.isDisplayed(),
-                isEnabled: await element.isEnabled()
+                isEnabled: await element.isEnabled(),
+                isSelected: await element.isSelected().catch(() => false) // Default to false if not supported
             };
 
             return {

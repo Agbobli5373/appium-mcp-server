@@ -22,16 +22,48 @@ export class DeviceManager implements BaseManager {
             // Get basic device capabilities
             const capabilities = this.driver.capabilities as any;
 
+            // Get screen size using getWindowSize for more accurate dimensions
+            let screenSize = { width: 0, height: 0 };
+            try {
+                screenSize = await this.driver.getWindowSize();
+            } catch (screenError) {
+                // Fallback to capabilities if getWindowSize fails
+                screenSize = {
+                    width: capabilities.deviceScreenSize?.width || 0,
+                    height: capabilities.deviceScreenSize?.height || 0
+                };
+            }
+
+            // Get current orientation
+            let orientation: 'PORTRAIT' | 'LANDSCAPE' = 'PORTRAIT';
+            try {
+                const currentOrientation = await this.driver.getOrientation();
+                orientation = currentOrientation as 'PORTRAIT' | 'LANDSCAPE';
+            } catch (orientationError) {
+                // Fallback to capabilities
+                orientation = (capabilities.deviceScreenOrientation || 'PORTRAIT') as 'PORTRAIT' | 'LANDSCAPE';
+            }
+
+            // Get battery level if available
+            let batteryLevel: number | undefined;
+            try {
+                if (capabilities.platformName === 'Android') {
+                    // For Android, try to get battery info
+                    const batteryInfo = await this.driver.execute('mobile: batteryInfo') as any;
+                    batteryLevel = batteryInfo?.level;
+                }
+            } catch (batteryError) {
+                // Battery info not available or not supported
+            }
+
             const deviceInfo: DeviceInfo = {
                 platformName: capabilities.platformName,
                 platformVersion: capabilities.platformVersion,
                 deviceName: capabilities.deviceName,
                 udid: capabilities.udid,
-                screenSize: {
-                    width: capabilities.deviceScreenSize?.width || 0,
-                    height: capabilities.deviceScreenSize?.height || 0
-                },
-                orientation: capabilities.deviceScreenOrientation || 'PORTRAIT',
+                screenSize,
+                orientation,
+                ...(batteryLevel !== undefined && { batteryLevel }),
                 isRealDevice: capabilities.realDevice || false
             };
 
